@@ -1,21 +1,29 @@
 from pydantic import BaseModel, Field, EmailStr
 import uuid
 
-class User(BaseModel):
+class BaseUser(BaseModel):
     username: str
     email: EmailStr
-    password : str
-    confirm_password: str
     full_name: str
     disabled: bool = False
 
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "username": "johndoe",
+                "email": "johndoe@secret.com"
+            }
+        }
 
-class UserInDB(User):
+class User(BaseUser):
+    password : str
+    confirm_password: str
+
+
+class UserInDB(BaseUser):
     # id: uuid.uuid4 = Field(default_factory=uuid.uuid4, alias="_id")
     hashed_password: str
     # remove password and confirm password and add hashed password
-    password: str = Field(exclude=True)
-    confirm_password: str = Field(exclude=True)
 
 
     class Config:
@@ -30,17 +38,17 @@ class UserInDB(User):
         }
 
 
-# class UserLogin(BaseModel):
-#     username: str
-#     password: str
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
-#     class Config:
-#         json_schema_extra = {
-#             "example": {
-#                 "username": "johndoe",
-#                 "password": "secret"
-#             }
-#         }
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "username": "johndoe",
+                "password": "secret"
+            }
+        }
 
 # class UserUpdate(BaseModel):
 #     username: str
@@ -74,3 +82,13 @@ class UserInDB(User):
 #                 "confirm_password": "secret"
 #             }
 #         }
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
+
