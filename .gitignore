@@ -1,0 +1,5 @@
+# python github ignores
+#
+__pycache__
+*.py[cod]
+*.env
