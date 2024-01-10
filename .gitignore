@@ -1,5 +1,3 @@
-# python github ignores
-#
-__pycache__
-*.py[cod]
-*.env
+node_modules
+.wwebjs_auth
+.wwebjs_cache
