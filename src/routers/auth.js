@@ -38,27 +38,10 @@ router.get("/callback", (req, res, next) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logOut();
-
-  let returnTo = req.protocol + "://" + req.hostname;
-  const port = req.connection.localPort;
-
-  if (port !== undefined && port !== 80 && port !== 443) {
-    returnTo =
-      process.env.NODE_ENV === "production"
-        ? `${returnTo}/`
-        : `${returnTo}:${port}/`;
-  }
-
-  const logoutURL = new URL(`https://${process.env.AUTH0_DOMAIN}/v2/logout`);
-
-  const searchString = querystring.stringify({
-    client_id: process.env.AUTH0_CLIENT_ID,
-    returnTo: returnTo,
+  req.logOut(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
   });
-  logoutURL.search = searchString;
-
-  res.redirect(logoutURL);
 });
 
 module.exports = router;
