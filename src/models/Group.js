@@ -7,13 +7,19 @@ const groupSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: false
+        required: true
     },
     maxPoints: {
         type: Number,
         required: true,
         default: 5
-    }
+    },
+    admin: {
+        type: String,
+        required: false
+    },
 });
 
 const Group = mongoose.model('groups', groupSchema);
+
+module.exports = Group;
