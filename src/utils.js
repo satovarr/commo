@@ -34,7 +34,7 @@ async function getGroup(groupId) {
     }
 
     //check if group exists
-    const group = await Group.findOne({ id: groupId }).catch((err) => {
+    let group = await Group.findOne({ id: groupId }).catch((err) => {
         console.log(err);
         return null;
     });
@@ -129,6 +129,7 @@ async function getLeaderboard(groupId) {
     });
     return leaderboard;
 }
+
 
 module.exports = {
     addStreak,

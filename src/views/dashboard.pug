@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title User Dashboard
+    // Add any CSS or JavaScript links here
+  body
+    header
+      h1 Welcome to Your Dashboard, #{user.displayName}
+    
+    section
+      h2 Your WhatsApp Groups
+      if user.linkedGroups.length
+        ul
+          each group in user.linkedGroups
+            li= group.id 
+      else
+        p You have no linked WhatsApp groups.
+
+    section
+      h2 Link a New WhatsApp Group
+      form(action="/link-group" method="POST")
+        label(for="groupLink") WhatsApp Group Invitation Link:
+        input(type="text" id="groupLink" name="groupLink" required)
+        button(type="submit") Link Group
+
+    footer
+      p © Your Company
