@@ -1,5 +1,7 @@
-const { Group, Participant } = require("./database");
+const Group = require("./models/Group");
+const User = require("./models/User");
 const mongoose = require("mongoose");
+const Participant = require("./models/Participant");
 
 async function createGroup(groupId, groupName, maxPoints = 5) {
 
@@ -43,9 +45,9 @@ async function getGroup(groupId) {
         //add group to database
         const newGroup = new Group({
             id: groupId,
-            name: groupId
+            name: groupId,
         });
-        newGroup.save();
+        await newGroup.save();
         console.log(`New group added with ID: ${groupId}`);
         group = newGroup;
     }
