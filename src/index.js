@@ -1,27 +1,29 @@
 require("dotenv").config();
-const {client, startWhatsAppClient } = require("./services/whatsapp");
 const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
 
-const { strategy } = require("./config/auth");
-startWhatsAppClient();
 
 const express = require("express");
-const bodyParser = require('body-parser');
-const path = require("path");
-
 const expressSession = require("express-session");
+const path = require("path");
+const bodyParser = require('body-parser');
 const passport = require("passport");
+
 
 const authRouter = require("./routers/auth");
 const dashboardRouter = require("./routers/dashboard");
+const groupRouter = require("./routers/group");
 const { getUser, postUser } = require("./services/user");
+const { strategy } = require("./config/auth");
+const {client, startWhatsAppClient } = require("./services/whatsapp");
+startWhatsAppClient();
 
 /**
  * App Variables
  */
 
 const app = express();
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || "8000";
 
@@ -46,7 +48,6 @@ if (app.get("env") === "production") {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(expressSession(session));
 
 passport.use(strategy);
@@ -87,6 +88,8 @@ app.use(async (req, res, next) => {
 
 app.use("/", authRouter);
 app.use("/", dashboardRouter);
+app.use("/groups", groupRouter);
+
 
 app.get("/", (req, res) => {
   res.render("index", {
