@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title #{group.name} Dashboard
+    // Add any CSS or JavaScript links here
+  body
+    header
+      h1 #{group.name} Dashboard
+    
+    section
+      h2 Group Information
+      p Name: #{group.name}
+      if group.maxPoints
+        p Maximum Points: #{group.maxPoints}
+      if group.admin
+        p Admin: #{group.admin}
+
+    section
+      h2 Group Members
+      if participants && participants.length
+        ul
+          each participant in participants
+            li #{participant.name} - Points: #{participant.points} - Streak: #{participant.streak}
+      else
+        p No participants found.
+
+    footer
+      p © Your Company
