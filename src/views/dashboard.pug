@@ -11,8 +11,9 @@ html
       h2 Your WhatsApp Groups
       if user.linkedGroups.length
         ul
-          each group in user.linkedGroups
-            li= group.name 
+          each group in groups
+            li
+              a(href=`/dashboard/${group.id}`)= group.name
       else
         p You have no linked WhatsApp groups.
 
